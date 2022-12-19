@@ -21,8 +21,6 @@ class Solution {
                 stack.push(Integer.parseInt(token));
             }
         }
-
         return !stack.isEmpty() ? stack.pop() : 0;
-        
     }
 }
