@@ -9,54 +9,54 @@
  * }
  */
 class Solution {
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+  public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
 
+    //Approach 1:  Min Heap
+    // PriorityQueue<ListNode> minHeap = new PriorityQueue<>((e1, e2) -> e1.val - e2.val); //minHeap
 
-        if(list1 == null && list2 == null){
-            return list1;
-        }
+    // while(list1 != null){
+    //     minHeap.add(list1);
+    //     list1 = list1.next;
+    // }
 
-        if(list1 == null && list2!=null){
-            return list2;
-        }
+    // while(list2 != null){
+    //     minHeap.add(list2);
+    //     list2 = list2.next;
+    // }
 
-        if(list1!=null && list2==null){
-            return list1;
-        }
+    // ListNode head = null;
+    // ListNode prev = null;
 
-        ListNode head = null;
-        ListNode c1 = null;
-        ListNode c2 = null;
+    // if(minHeap.size() > 0){
+    //     head = minHeap.poll();
+    //     prev = head;
+    // }
 
-        if(list1.val>=list2.val){
-            c1 = list1;
-            c2 = list2;
-            head = list2;
-        }else{
-            c1 = list2;
-            c2 = list1;
-            head = list1;
-        }
+    // while(minHeap.size() > 0){
+    //     ListNode node = minHeap.poll();
+    //     node.next = null;
+    //     prev.next = node;
+    //     prev = node;
+    // }
 
-        ListNode temp = null;
-        while(c1!=null){
-            temp = c1.next;
-            mergeList(c1, c2);
-            c1 = temp;
-        }
+    // return head;
 
-        return head;
+    //Approach 2:  Recursion
+
+    if (list1 == null) {
+      return list2;
     }
 
-
-    public void mergeList(ListNode c1, ListNode c2){
-        ListNode next2 = null;
-        while(c1.val >= c2.val && c2.next!=null && c1.val > c2.next.val){
-            c2 = c2.next;
-        } 
-
-        next2 = c2.next;
-        c2.next = c1;
-        c1.next = next2;
+    if (list2 == null) {
+      return list1;
     }
+
+    if (list1.val < list2.val) {
+      list1.next = mergeTwoLists(list1.next, list2);
+      return list1;
+    } else {
+      list2.next = mergeTwoLists(list1, list2.next);
+      return list2;
+    }
+  }
 }
