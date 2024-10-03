@@ -1,2 +1,2 @@
 # Leetcode150
-Solution of top 150 coding questions for the coding interview preperation
+Solution of LeetCode coding questions for the coding interview preperation
