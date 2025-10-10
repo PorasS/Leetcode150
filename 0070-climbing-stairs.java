@@ -1,29 +1,28 @@
 class Solution {
-  int[][] res;
-  public int climbStairs(int n) {
-    //create a matrix for step and stepRemain
-    res = new int[3][n + 1];
-    takeStep(0, n);
-    return res[0][n];
-  }
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
 
-  public int takeStep(int step, int stepRemain) {
-    if (stepRemain < 0) {
-      return 0;
+        return totalWays(n, dp);
     }
 
-    if (res[step][stepRemain] != 0) {
-      return res[step][stepRemain];
+
+    public int totalWays(int n, int[] dp){
+
+        if(n < 0){
+            return 0;
+        }
+
+        if(n == 0){
+            return 1;
+        }
+
+        if(dp[n] != 0){
+            return dp[n];
+        }
+
+        int totalSteps = totalWays(n-1, dp) + totalWays(n-2, dp);
+
+        dp[n] = totalSteps;
+        return totalSteps;
     }
-
-    if (stepRemain == 0) {
-      return 1;
-    }
-
-    int totalWay = takeStep(1, stepRemain - 1) + takeStep(2, stepRemain - 2);
-
-    res[step][stepRemain] = totalWay;
-
-    return totalWay;
-  }
 }
