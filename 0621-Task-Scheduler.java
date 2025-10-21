@@ -1,68 +1,62 @@
 class Solution {
     public int leastInterval(char[] tasks, int n) {
-
-        if(tasks.length == 1){
-            return 1;
-        }
         
-        PriorityQueue<Node> pq = new PriorityQueue<>((n1, n2) -> n2.freq - n1.freq);
-
+        PriorityQueue<Node> pq = new PriorityQueue<>((n1, n2) -> n2.occur - n1.occur);
         Map<Character, Integer> map = new HashMap<>();
-        //count the occurrences
-        for(int i = 0; i < tasks.length; i++){
-            if(!map.containsKey(tasks[i])){
-                map.put(tasks[i],0);
+        for(char c : tasks){
+            if(!map.containsKey(c)){
+                map.put(c, 0);
             }
-            map.put(tasks[i], map.get(tasks[i]) + 1);
+
+            map.put(c, map.get(c) + 1);
         }
 
-        //now add the occurrences map elements to priorityQueue
-        for(Map.Entry<Character, Integer> e : map.entrySet() ){
-            Node node = new Node(e.getKey(), e.getValue());
-            pq.offer(node);
+        // System.out.println(map);
+
+        for(Map.Entry<Character, Integer> e : map.entrySet()){
+            Node n1 = new Node(e.getKey(), 0, e.getValue());
+            pq.offer(n1);
         }
 
-        map = new HashMap<>();
+        Queue<Node> q = new LinkedList<>();
+        int minInterval = 0;
 
-        Queue<Node> queue = new LinkedList<>();
+        while(!pq.isEmpty() || !q.isEmpty()){
+            minInterval+=1;
+            
+            Node task = null;
+            if(!pq.isEmpty()){
+                task = pq.poll();
+                task.occur-=1;
+                task.time = minInterval + n;
 
-        int interval = 0;
-        while(!pq.isEmpty()){
-            interval+=1;
-            int size = pq.size();
-            for(int j = 0; j < size; j++){
-                Node nd = pq.poll();
-                char task = nd.task;
-                int freq = nd.freq;
-                int nf = interval + n + 1;
-                if(!map.containsKey(task) || interval >= map.get(task)){
-                    nd.freq = freq - 1;
-                    if(nd.freq > 0){
-                        pq.offer(nd);
-                        map.put(task, nf);
-                    }
-                    break;
-                }else {
-                    queue.offer(nd);
+                if(task.occur > 0){
+                    q.offer(task);
                 }
             }
-        
-            while(!queue.isEmpty()){
-                pq.offer(queue.poll());
+
+            if(!q.isEmpty()){
+                task = q.peek();
+
+                if(task.time == minInterval){
+                    pq.offer(q.poll());
+                }
             }
         }
 
-        return interval;
-
+        return minInterval;
     }
+}
 
-    class Node{
-        char task;
-        int freq;
 
-        public Node(char task, int freq){
-            this.task = task;
-            this.freq = freq;
-        }
+class Node{
+    char c;
+    int time;
+    int occur;
+
+    public Node(char c, int time, int occur){
+        this.c = c;
+        this.time = time;
+        this.occur = occur;
     }
 }
