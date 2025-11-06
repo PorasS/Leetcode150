@@ -1,7 +1,7 @@
 class Solution {
     public int leastInterval(char[] tasks, int n) {
         
-        PriorityQueue<Node> pq = new PriorityQueue<>((n1, n2) -> n2.occur - n1.occur);
+        PriorityQueue<Node> pq = new PriorityQueue<>((n1, n2) -> n2.occur - n1.occur);//task are picked from the heap
         Map<Character, Integer> map = new HashMap<>();
         for(char c : tasks){
             if(!map.containsKey(c)){
@@ -18,7 +18,7 @@ class Solution {
             pq.offer(n1);
         }
 
-        Queue<Node> q = new LinkedList<>();
+        Queue<Node> q = new LinkedList<>();// waiting queue
         int minInterval = 0;
 
         while(!pq.isEmpty() || !q.isEmpty()){
