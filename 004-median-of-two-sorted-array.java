@@ -44,4 +44,48 @@ class Solution {
   }
 
 
+
+//Solution 2
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+       PriorityQueue<Double> max = new PriorityQueue<Double>((n1, n2) -> Double.compare(n2,n1));
+       PriorityQueue<Double> min = new PriorityQueue<Double>();
+
+       for(int i = 0; i < nums1.length; i++){
+            if(max.size() <= min.size()){
+                max.offer((double)nums1[i]);
+            }else{
+                min.offer((double)nums1[i]);
+            }
+
+            if(!max.isEmpty() && !min.isEmpty() && max.peek() > min.peek()){
+                double minEl = min.poll();
+                double maxEl = max.poll();
+                max.offer(minEl);
+                min.offer(maxEl);
+            }
+       }
+
+       for(int i = 0; i < nums2.length; i++){
+            if(max.size() <= min.size()){
+                max.offer((double)nums2[i]);
+            }else{
+                min.offer((double)nums2[i]);
+            }
+
+            if(!max.isEmpty() && !min.isEmpty() && max.peek() > min.peek()){
+                double minEl = min.poll();
+                double maxEl = max.poll();
+                max.offer(minEl);
+                min.offer(maxEl);
+            }
+       }
+
+
+       return max.size() == min.size() ? (max.peek() + min.peek()) / 2 :
+       (max.size() > min.size() ? max.peek() : min.peek());
+    }
+}
+
+
 }
