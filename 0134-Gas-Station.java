@@ -6,7 +6,7 @@ class Solution {
         int idx = 0;
         int tank = -1;
 
-        Set<Integer> visited = new HashSet<>();
+        //Set<Integer> visited = new HashSet<>();
 
         int totalGas = 0;
         int totalCost = 0;
