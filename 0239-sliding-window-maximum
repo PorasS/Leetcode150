@@ -1,0 +1,75 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+
+
+        if(k == 1){
+            return nums;
+        } 
+    
+        List<Integer> res = new ArrayList<>();
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(k, (a,b) -> Integer.compare(b,a));
+
+        int r = k;
+        int l = 0;
+
+        for(int i = 0; i < r; i++){
+            maxHeap.offer(nums[i]);
+        }
+
+        res.add(maxHeap.peek());
+
+        while(r < nums.length){
+            maxHeap.remove(nums[l++]);
+            maxHeap.offer(nums[r++]);
+            res.add(maxHeap.peek());
+        }
+
+        int[] resArr = res.stream().mapToInt(Integer::intValue).toArray();
+
+        return resArr;
+
+
+        //Queue
+
+        // Queue<Integer> queue = new LinkedList<>();
+
+        // for(int i = 0 ; i < k; i++){
+        //     while(!queue.isEmpty() && nums[i] > queue.peek()){
+        //         queue.remove();
+        //     }    
+        //     queue.add(nums[i]);
+        // }
+
+        // //[7]
+
+        // List<Integer> res = new ArrayList<>();
+        // int r = k-1;
+        // int l = 0;
+        // while(r < nums.length){
+        //     res.add(queue.peek()); //[3, 3, 5, 5, 6]
+
+        //     if(queue.peek() == nums[l]){
+        //         queue.remove();
+        //     }
+
+        //     r++;
+        //     l++;
+
+        //     if(r < nums.length){
+        //         while(!queue.isEmpty() && nums[r] > queue.peek()){
+        //             queue.remove();
+        //         }
+        //         queue.add(nums[r]);
+        //     }
+            
+        // }
+
+        // // res.add(queue.peek());
+
+        // int[] resArr = res.stream().mapToInt(Integer::intValue).toArray();
+
+        // return resArr;
+        
+    }
+}
